@@ -2,6 +2,8 @@
 
 Fuguely is a robust and intuitive scheduling solution designed specifically for private lessons. Whether you're a music teacher, a sports coach, or an academic tutor, Fuguely streamlines the process of scheduling, rescheduling, and managing lessons.
 
+live demo: https://fuguely-web-app.web.app/
+
 ## Features
 
 - 🗓️ **Intuitive Calendar Interface**: Easily view and manage your upcoming lessons.
