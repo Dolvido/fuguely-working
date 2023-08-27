@@ -11,13 +11,7 @@
       class="step"
       class:step-primary={$page.route.id?.match(/username|profile|photo/g)}>
       Choose Username
-    </a>
-    <a
-      href="/login/profile"
-      class="step"
-      class:step-primary={$page.route.id?.match(/username|profile|photo/g)}>
-      Choose profile type
-    </a>
+  </a>
     <a
       href="/login/photo"
       class="step"

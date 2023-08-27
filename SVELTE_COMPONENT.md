@@ -9,10 +9,7 @@ FUNCTIONS:
   - toggleProfileStatus():
       SET userRef to point to current user's document in the "users" collection in the database
       UPDATE the "published" field in userRef with the opposite of its current value
-
-  - toggleTeacherMode():
-      SET userRef to point to current user's document in the "users" collection in the database
-      UPDATE the "teacherMode" field in userRef with the opposite of its current value
+      
 
 HTML STRUCTURE:
 
@@ -30,11 +27,9 @@ HTML STRUCTURE:
         - If user data's published field is false, show as "Private profile"
         - ON CHANGING the switch state, call toggleProfileStatus function
 	
-    -FORM for selecting profile type:
-      - TOGGLE SWITCH:
-        - If user data's teacherMode field is true, show as "Teacher Mode"
-        - If user data's teacherMode field is false, show as "Student Mode"
-        - ON CHANGING the switch state, call toggleTeacherMode function
+    - TEXT for displaying profileType
+      - USE userRef to get profileType from the "users"
+        collection in the database.
 		
 
 END Component

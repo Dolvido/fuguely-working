@@ -6,6 +6,7 @@
   let loading = false;
   let isAvailable = false;
   let debounceTimer: NodeJS.Timeout;
+  let selectedRole = "Student";
 
   const re = /^(?=[a-zA-Z0-9._]{3,16}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
 
@@ -44,6 +45,7 @@
       photoURL: $user?.photoURL ?? null,
       published: false,
       bio: "",
+      profileType: selectedRole,
     });
 
     await batch.commit();
@@ -95,6 +97,15 @@
           <button class="btn btn-success">Confirm username @{username} </button>
         {/if}
       </div>
+      <label class="label" for="roleDropdown">Select your role</label>
+<select id="roleDropdown" bind:value={selectedRole} class="form-select w-full mt-2">
+    <option value="Student">Student</option>
+    <option value="Teacher">Teacher</option>
+</select>
+
+
+    
     </form>
   {/if}
+  
 </AuthCheck>

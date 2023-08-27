@@ -11,14 +11,16 @@
       published: !$userData?.published,
     });
   }
-
-  // Function to toggle the teacher mode
-  async function toggleTeacherMode() {
+  // Get profileType (not provided in pseudocode how to handle this, so adding a simple fetch)
+  let profileType = "";
+  async function fetchProfileType() {
     const userRef = doc(db, "users", $userData.uid);
-    await updateDoc(userRef, {
-      teacherMode: !$userData?.teacherMode,
-    });
+    const docData = await getDoc(userRef);
+    profileType = docData.data().profileType;
   }
+ 
+
+  
 </script>
 
 <main class="max-w-xl mx-auto">
@@ -59,20 +61,17 @@
       </label>
     </form>
 
-    <!-- Toggle for Teacher/Student mode -->
-    <form class="form-control">
-      <label class="label cursor-pointer flex items-start justify-center">
-        <span class="label-text mr-6">
-          {$userData?.teacherMode ? "Teacher Mode" : "Teacher Mode"}
-        </span>
-        <input
-          type="checkbox"
-          class="toggle toggle-success"
-          checked={$userData?.teacherMode}
-          on:change={toggleTeacherMode}
-        />
-      </label>
-    </form>
+    <!-- Teacher/Student mode display-->
+    {#if $userData?.profileType === "teacher"}
+      <div class="text-center my-4">
+        <a class="btn btn-outline btn-xs" href={`/${$userData.username}/edit`}>Edit Profile</a>
+      </div>
+    {:else if $userData?.profileType === "student"}
+      <div class="text-center my-4">
+        <a class="btn btn-outline btn-xs" href={`/${$userData.username}/edit`}>Edit Profile</a>
+      </div>
+    {/if}
+    
     <Logout />
   {/if}
 </main>
