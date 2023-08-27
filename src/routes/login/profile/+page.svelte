@@ -1,5 +1,4 @@
 <script lang="ts">
-    // ...[rest of your imports]...
     import { page } from "$app/stores";
     import AuthCheck from "$lib/components/AuthCheck.svelte";
     import SortableList from "$lib/components/SortableList.svelte";
@@ -23,7 +22,7 @@
     }
     
 </script>
-
+<AuthCheck>
 <main class="max-w-xl mx-auto">
     {#if $userData?.username == $page.params.username}
     <h1 class="mx-2 text-2xl font-bold mt-8 mb-4 text-center">Edit your Profile</h1>
@@ -45,3 +44,4 @@
 {/if}
 
 </main>
+</AuthCheck>
