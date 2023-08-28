@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { auth } from "$lib/firebase"  // Update the path accordingly
+    import { auth } from "$lib/firebase";  // Update the path accordingly
     import { user } from "$lib/firebase";  // Update the path accordingly
 
     function logout() {

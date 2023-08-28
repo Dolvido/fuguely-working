@@ -7,6 +7,7 @@ export const load = (async ({ locals, params }) => {
     const uid = locals.userID;
 
     if (!uid) {
+      console.log("No user ID");
       throw redirect(301, "/login");
     }
   

@@ -3,6 +3,9 @@
   import { db, userData } from "$lib/firebase";
   import { doc, updateDoc, writeBatch } from "firebase/firestore";
   import Logout from "$lib/components/Logout.svelte";
+  import TeacherSchedule from "$lib/components/TeacherSchedule.svelte";
+  import WeekView from "$lib/components/WeekView.svelte";
+  
 
   // Function to toggle the profile status
   async function toggleProfileStatus() {
@@ -62,14 +65,19 @@
     </form>
 
     <!-- Teacher/Student mode display-->
-    {#if $userData?.profileType === "teacher"}
+    {#if $userData?.profileType === "Teacher"}
       <div class="text-center my-4">
-        <a class="btn btn-outline btn-xs" href={`/${$userData.username}/edit`}>Edit Profile</a>
+        <a class="btn btn-outline btn-xs" href={`/${$userData.username}/edit`}>Teacher Mode</a>
+        <!-- Teacher Schedule -->
+        <WeekView />
+        
       </div>
-    {:else if $userData?.profileType === "student"}
+    {:else if $userData?.profileType === "Student"}
       <div class="text-center my-4">
-        <a class="btn btn-outline btn-xs" href={`/${$userData.username}/edit`}>Edit Profile</a>
+        <a class="btn btn-outline btn-xs" href={`/${$userData.username}/edit`}>Stuent Mode</a>
       </div>
+
+      
     {/if}
     
     <Logout />
