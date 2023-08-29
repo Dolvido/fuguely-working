@@ -94,7 +94,6 @@ export const userData: Readable<UserData | null> = derived(user, ($user, set) =>
   }
 });
 
-export const availabilityData = writable<AvailabilityData | null>({ availabilities: {} });
 
 
 

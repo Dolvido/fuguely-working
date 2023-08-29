@@ -3,7 +3,6 @@
     import { db, user, userData } from "$lib/firebase";  // Assuming you've initialized firebase in this module
     import { doc, setDoc, getDoc } from "firebase/firestore";
     import { createEventDispatcher } from "svelte";
-    import { availabilityData } from "$lib/firebase";
 
     const dispatch = createEventDispatcher();
 

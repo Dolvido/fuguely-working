@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { db, userData } from "$lib/firebase";
+  import { db, user, userData } from "$lib/firebase";
   import { doc, updateDoc, writeBatch } from "firebase/firestore";
   import Logout from "$lib/components/Logout.svelte";
   import TeacherSchedule from "$lib/components/TeacherSchedule.svelte";
@@ -17,15 +17,26 @@
 
   // Function to toggle the profile status
   async function toggleProfileStatus() {
-    const userRef = doc(db, "users", $userData.uid);
-    await updateDoc(userRef, {
-      published: !$userData?.published,
-    });
+    console.log("userData:", $userData); // Debugging line
+    if (!$userData) {
+      console.error("userData is undefined");
+      return;
+    }
+
+    const userRef = doc(db, "users", $user!.uid);
+
+    try {
+      await updateDoc(userRef, {
+        published: !$userData?.published,
+      });
+    } catch (error) {
+      console.error("Failed to update document:", error);
+    }
   }
   // Get profileType (not provided in pseudocode how to handle this, so adding a simple fetch)
   let profileType = "";
   async function fetchProfileType() {
-    const userRef = doc(db, "users", $userData.uid);
+    const userRef = doc(db, "users", $userData!.uid);
     const docData = await getDoc(userRef);
     profileType = docData.data().profileType;
   }
