@@ -32,29 +32,43 @@
         }
     }
     async function onSubmit() {
-        const docRef = doc(db, 'users', $user!.uid); // Replace 'users' with the appropriate collection name
-        const userData = await getDoc(docRef);
-        const userDoc = userData.data() || {};
+        if (selectedDay && selectedStartTime && selectedEndTime) {  
+            if(selectedStartTime > selectedEndTime) {
+                alert("Start time must be before end time");
+                return;
+            }
+            const docRef = doc(db, 'users', $user!.uid); // Replace 'users' with the appropriate collection name
+            const userData = await getDoc(docRef);
+            const userDoc = userData.data() || {};
 
-        const timeWindow = `${selectedStartTime} to ${selectedEndTime}`;
+            const timeWindow = `${selectedStartTime} to ${selectedEndTime}`;
 
-        console.log('selectedDay:', selectedDay);
-        console.log('userDoc:', userDoc);
+            console.log('selectedDay:', selectedDay);
+            console.log('userDoc:', userDoc);
 
-        // Create or update the 'availabilities' field with the key-value pair
-        userDoc.availabilities = {
-            ...userDoc.availabilities,
-            [selectedDay]: timeWindow
-        };
+            // Create or update the 'availabilities' field with the key-value pair
+            userDoc.availabilities = {
+                ...userDoc.availabilities,
+                [selectedDay]: timeWindow
+            };
 
-        console.log('updated userDoc:', userDoc);
+            console.log('updated userDoc:', userDoc);
 
-        await setDoc(docRef, userDoc);
+            await setDoc(docRef, userDoc);
+        }
+        else    {
+            alert("Please select a day, start time, and end time");
+        }
     }
 </script>
 
-<div class="flex flex-col items-center mx-auto">
-    <div class="flex items-center mb-2 w-full justify-center">
+<!-- Grid Container -->
+<div class="grid grid-cols-4 gap-4">
+  
+    <!-- Your Component -->
+    <div class="col-span-4 row-span-1 flex flex-col items-center mx-auto">
+  
+      <div class="flex items-center mb-2 w-full justify-center">
         <label for="day-dropdown" class="mr-2">Select a day:</label>
         <select id="day-dropdown" bind:value={selectedDay} class="mx-1">
             <option disabled selected value={null}>-- Choose a day --</option>
@@ -62,9 +76,9 @@
                 <option value={day}>{day}</option>
             {/each}
         </select>
-    </div>
-    
-    <div class="flex items-center mb-2 w-full justify-center">
+      </div>
+      
+      <div class="flex items-center mb-2 w-full justify-center">
         <label for="start-time-dropdown" class="mr-2">Start time:</label>
         <select id="start-time-dropdown" bind:value={selectedStartTime} class="mx-1">
             <option disabled selected value={null}>-- Choose a start time --</option>
@@ -72,9 +86,9 @@
                 <option value={interval}>{interval}</option>
             {/each}
         </select>
-    </div>
-
-    <div class="flex items-center mb-2 w-full justify-center">
+      </div>
+  
+      <div class="flex items-center mb-2 w-full justify-center">
         <label for="end-time-dropdown" class="mr-2">End time:</label>
         <select id="end-time-dropdown" bind:value={selectedEndTime} class="mx-1">
             <option disabled selected value={null}>-- Choose an end time --</option>
@@ -82,10 +96,14 @@
                 <option value={interval}>{interval}</option>
             {/each}
         </select>
-    </div>
-
-    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" on:click|preventDefault={onSubmit}>
+      </div>
+  
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" on:click|preventDefault={onSubmit}>
         Add
-    </button>
-
-</div>
+      </button>
+  
+    </div>
+    <!-- End of Your Component -->
+  
+  </div>
+  
