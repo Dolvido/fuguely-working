@@ -1,6 +1,6 @@
 <script lang='ts'>
     import { onMount } from "svelte";
-    import { getDocs, collection, query, where, doc, getDoc } from "firebase/firestore";
+    import { doc, getDoc, updateDoc } from "firebase/firestore";
     import { db, user, userData } from "$lib/firebase";
     let availabilities = [];
     let availabilitiesList = [];
@@ -28,6 +28,23 @@
     console.log("Transformed availabilities:", availabilitiesList);
     }
 
+    // Function to delete an availability
+    async function deleteAvailability(day: string) {
+      // Your logic to delete the availability from Firestore
+      const userDocRef = doc(db, 'users', $user!.uid);
+      const userDoc = await getDoc(userDocRef);
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        if (userData && userData.availabilities && userData.availabilities[day]) {
+          // Remove the availability
+          delete userData.availabilities[day];
+          // Update the document
+          await updateDoc(userDocRef, { availabilities: userData.availabilities });
+        }
+      }
+    }
+
+
   </script>
   
   {#if $userData && $userData.availabilities}
@@ -38,12 +55,16 @@
         <ul class="list-decimal list-inside">
           <li class="text-sm text-gray-700">{time}</li>
         </ul>
+        <button class="mt-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" on:click={() => deleteAvailability(day)}>
+          Delete
+        </button>
       </div>
     {/each}
   </div>
 {:else}
   <p class="text-lg font-medium text-gray-600">Loading...</p>
 {/if}
+
 
 
   
