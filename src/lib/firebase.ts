@@ -83,7 +83,7 @@ interface UserData {
   bio: string;
   photoURL: string;
   published: boolean;
-  links: any[];
+  availability: { string: []};
 }
 
 export const userData: Readable<UserData | null> = derived(user, ($user, set) => { 
@@ -92,4 +92,9 @@ export const userData: Readable<UserData | null> = derived(user, ($user, set) =>
   } else {
     set(null); 
   }
-});  
+});
+
+export const availabilityData = writable<AvailabilityData | null>({ availabilities: {} });
+
+
+

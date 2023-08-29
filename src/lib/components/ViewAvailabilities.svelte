@@ -1,0 +1,49 @@
+<script lang='ts'>
+    import { onMount } from "svelte";
+    import { getDocs, collection, query, where, doc, getDoc } from "firebase/firestore";
+    import { db, user, userData } from "$lib/firebase";
+    let availabilities = [];
+    let availabilitiesList = [];
+    let loading = true;
+  
+    onMount(async () => {
+        try {
+            const userDoc = await getDoc(doc(db, 'users', $user!.uid)); // Replace 'yourUserIdHere' with the actual user ID
+            if (userDoc.exists()) {
+            availabilities = userDoc.data().availabilities;
+            console.log("Availabilities object:", availabilities);
+            } else {
+            console.log("User document doesn't exist.");
+            }
+            loading = false;
+        } catch (error) {
+            console.error("Error fetching availabilities:", error);
+        }
+        });
+  
+    $: if (!loading) {
+    availabilitiesList = Object.entries(availabilities).map(([day, time]) => {
+        return { day, time };
+    });
+    console.log("Transformed availabilities:", availabilitiesList);
+    }
+
+  </script>
+  
+  {#if $userData && $userData.availabilities}
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {#each Object.entries($userData.availabilities) as [day, time]}
+      <div class="p-6 rounded-lg shadow-lg bg-white">
+        <h3 class="text-lg font-semibold mb-2">{day}</h3>
+        <ul class="list-decimal list-inside">
+          <li class="text-sm text-gray-700">{time}</li>
+        </ul>
+      </div>
+    {/each}
+  </div>
+{:else}
+  <p class="text-lg font-medium text-gray-600">Loading...</p>
+{/if}
+
+
+  

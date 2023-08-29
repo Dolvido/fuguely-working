@@ -7,6 +7,7 @@
   let isAvailable = false;
   let debounceTimer: NodeJS.Timeout;
   let selectedRole = "Student";
+  let availabilities = [];
 
   const re = /^(?=[a-zA-Z0-9._]{3,16}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
 
@@ -46,6 +47,7 @@
       published: false,
       bio: "",
       profileType: selectedRole,
+      availabilities: availabilities,
     });
 
     await batch.commit();

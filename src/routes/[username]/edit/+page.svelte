@@ -5,7 +5,15 @@
   import Logout from "$lib/components/Logout.svelte";
   import TeacherSchedule from "$lib/components/TeacherSchedule.svelte";
   import WeekView from "$lib/components/WeekView.svelte";
+  import WindowPicker from "$lib/components/WindowPicker.svelte";
+  import ViewAvailabilities from "$lib/components/ViewAvailabilities.svelte";
   
+  let reloadAvailabilities = false;
+
+  function handleNewAvailability() {
+    console.log("Caught newAvailabilityAdded event");
+    reloadAvailabilities = !reloadAvailabilities;
+  }
 
   // Function to toggle the profile status
   async function toggleProfileStatus() {
@@ -69,8 +77,9 @@
       <div class="text-center my-4">
         <a class="btn btn-outline btn-xs" href={`/${$userData.username}/edit`}>Teacher Mode</a>
         <!-- Teacher Schedule -->
-        <WeekView />
-        
+        <WindowPicker  />
+        <ViewAvailabilities/>
+
       </div>
     {:else if $userData?.profileType === "Student"}
       <div class="text-center my-4">
