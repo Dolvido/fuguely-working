@@ -10,14 +10,8 @@
   
   let reloadAvailabilities = false;
 
-  function handleNewAvailability() {
-    console.log("Caught newAvailabilityAdded event");
-    reloadAvailabilities = !reloadAvailabilities;
-  }
-
   // Function to toggle the profile status
   async function toggleProfileStatus() {
-    console.log("userData:", $userData); // Debugging line
     if (!$userData) {
       console.error("userData is undefined");
       return;

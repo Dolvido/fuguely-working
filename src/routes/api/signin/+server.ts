@@ -7,9 +7,10 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
     const { idToken } = await request.json();
 
     const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
+    
+    const decodedIdToken = await adminAuth.verifyIdToken(idToken);  
 
-    const decodedIdToken = await adminAuth.verifyIdToken(idToken);
-
+    console.log("\n\n\n", decodedIdToken);
     if (new Date().getTime() / 1000 - decodedIdToken.auth_time < 5 * 60) {
         const cookie = await adminAuth.createSessionCookie(idToken, { expiresIn });
         const options = { maxAge: expiresIn, httpOnly: true, secure: true, path: '/' };

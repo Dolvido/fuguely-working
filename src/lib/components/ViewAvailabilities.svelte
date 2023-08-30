@@ -10,10 +10,9 @@
         try {
             const userDoc = await getDoc(doc(db, 'users', $user!.uid)); // Replace 'yourUserIdHere' with the actual user ID
             if (userDoc.exists()) {
-            availabilities = userDoc.data().availabilities;
-            console.log("Availabilities object:", availabilities);
+                availabilities = userDoc.data().availabilities;
             } else {
-            console.log("User document doesn't exist.");
+                console.log("User document doesn't exist.");
             }
             loading = false;
         } catch (error) {
@@ -25,7 +24,6 @@
     availabilitiesList = Object.entries(availabilities).map(([day, time]) => {
         return { day, time };
     });
-    console.log("Transformed availabilities:", availabilitiesList);
     }
 
     // Function to delete an availability
