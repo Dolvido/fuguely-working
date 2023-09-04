@@ -17,18 +17,20 @@
     let loading = false;
 
     function checkAvailability() {
-        let isValid = false;
-        
-        // Check if selectedStartTime is before selectedEndTime
-        if (selectedStartTime && selectedEndTime) {
-            const startTime = new Date(`2000/01/01 ${selectedStartTime}`);
-            const endTime = new Date(`2000/01/01 ${selectedEndTime}`);
+      let isValid = false;
+  
+      // Check if selectedStartTime is before selectedEndTime
+      if (selectedStartTime && selectedEndTime) {
+        const startTime = new Date(`2000/01/01 ${selectedStartTime}`);
+        const endTime = new Date(`2000/01/01 ${selectedEndTime}`);
 
-            if (startTime < endTime) {
-                console.log("Start time is before end time");
-                isValid = true;
-            }
+        if (startTime < endTime) {
+          console.log("Start time is before end time");
+          isValid = true;
         }
+      }
+
+      return isValid;
     }
     async function onSubmit() {
         if (selectedDay && selectedStartTime && selectedEndTime) {  
@@ -36,7 +38,7 @@
                 alert("Start time must be before end time");
                 return;
             }
-            const docRef = doc(db, 'users', $user!.uid); // Replace 'users' with the appropriate collection name
+            const docRef = doc(db, 'teachers', $user!.uid); // Replace 'users' with the appropriate collection name
             const userData = await getDoc(docRef);
             const userDoc = userData.data() || {};
 

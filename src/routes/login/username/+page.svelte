@@ -6,8 +6,7 @@
   let loading = false;
   let isAvailable = false;
   let debounceTimer: NodeJS.Timeout;
-  let selectedRole = "Student";
-  let availabilities = [];
+  let selectedRole = "";
 
   const re = /^(?=[a-zA-Z0-9._]{3,16}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
 
@@ -15,6 +14,7 @@
     username?.length > 2 && username.length < 16 && re.test(username);
   $: isTouched = username.length > 0;
   $: isTaken = isValid && !isAvailable && !loading;
+  $: isRoleSelected = selectedRole === "Student" || selectedRole === "Teacher";
 
   function checkAvailability() {
     isAvailable = false;
@@ -47,8 +47,25 @@
       published: false,
       bio: "",
       profileType: selectedRole,
-      availabilities: availabilities,
     });
+
+    if(selectedRole === "Teacher") {
+      batch.set(doc(db, "teachers", $user!.uid), {
+        username,
+        photoURL: $user?.photoURL ?? null,
+        published: false,
+        bio: "",
+        availabilities: [],
+      });
+    }
+    if(selectedRole === "Student") {
+      batch.set(doc(db, "students", $user!.uid), {
+        username,
+        photoURL: $user?.photoURL ?? null,
+        published: false,
+        teachers: [],
+      });
+    }
 
     await batch.commit();
 
@@ -79,6 +96,14 @@
         class:input-success={isAvailable && isValid && !loading}
       />
       <div class="my-4 min-h-16 px-8 w-full">
+        <label class="label" for="roleDropdown">Select your role</label>
+        <p class="text-sm text-secondary">This cannot be changed later</p>
+        <select id="roleDropdown" bind:value={selectedRole} class="form-select w-full mt-2">
+          <option value="Student">Student</option>
+          <option value="Teacher">Teacher</option>
+        </select>
+      </div>
+      <div class="my-4 min-h-16 px-8 w-full">
         {#if loading}
           <p class="text-secondary">Checking availability of @{username}...</p>
         {/if}
@@ -94,19 +119,19 @@
             @{username} is not available
           </p>
         {/if}
-
-        {#if isAvailable}
+        {#if isAvailable && !isRoleSelected}
+          <p class="text-warning text-sm">
+            Please select a role
+          </p>
+        {/if}
+        {#if isAvailable && isRoleSelected} <!-- Update this line -->
           <button class="btn btn-success">Confirm username @{username} </button>
+        {:else}
+          <!-- You can add an additional message or styling here to indicate that role selection is required -->
+          <button class="btn btn-success" disabled>Confirm username @{username} </button>
         {/if}
       </div>
-      <label class="label" for="roleDropdown">Select your role</label>
-<select id="roleDropdown" bind:value={selectedRole} class="form-select w-full mt-2">
-    <option value="Student">Student</option>
-    <option value="Teacher">Teacher</option>
-</select>
-
-
-    
+     
     </form>
   {/if}
   

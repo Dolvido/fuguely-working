@@ -29,5 +29,7 @@
       </div>
       <button class="btn btn-primary my-5">Update Bio</button>
     </form>
+    
   </main>
+
   

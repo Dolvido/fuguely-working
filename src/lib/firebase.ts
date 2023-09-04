@@ -83,6 +83,7 @@ interface UserData {
   bio: string;
   photoURL: string;
   published: boolean;
+  profileType: string;
   availability: { string: []};
 }
 
@@ -93,6 +94,39 @@ export const userData: Readable<UserData | null> = derived(user, ($user, set) =>
     set(null); 
   }
 });
+
+//student data
+interface StudentData {
+  username: string;
+  photoURL: string;
+  teachers: string[];
+}
+
+export const studentData: Readable<StudentData | null> = derived(user, ($user, set) => { 
+  if ($user) {
+    return docStore<StudentData>(`students/${$user.uid}`).subscribe(set);
+  } else {
+    set(null); 
+  }
+});
+
+//teacher data
+interface TeacherData {
+  username: string;
+  photoURL: string;
+  students: string[];
+  bio: string;
+  availability: { string: []};
+}
+
+export const teacherData: Readable<TeacherData | null> = derived(user, ($user, set) => {
+  if ($user) {
+    return docStore<TeacherData>(`teachers/${$user.uid}`).subscribe(set);
+  } else {
+    set(null);
+  }
+});
+
 
 
 

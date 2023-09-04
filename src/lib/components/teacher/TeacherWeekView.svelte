@@ -6,7 +6,7 @@
     let availabilityData = {};
 
     onMount(async () => {
-        const docRef = doc(db, 'users', $user!.uid);  // Using the authenticated user's uid as the document ID
+        const docRef = doc(db, 'teachers', $user!.uid);  // Using the authenticated user's uid as the document ID
         const docData = await getDoc(docRef);
 
         if (docData.exists()) {

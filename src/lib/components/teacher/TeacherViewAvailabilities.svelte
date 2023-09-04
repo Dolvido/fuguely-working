@@ -1,10 +1,10 @@
 <script lang='ts'>
     import { onMount } from "svelte";
     import { doc, getDoc, updateDoc } from "firebase/firestore";
-    import { db, user, userData } from "$lib/firebase";
+    import { db, user, teacherData } from "$lib/firebase";
     let availabilities = [];
     let availabilitiesList = [];
-    let loading = true;
+    let loading = false;
   
     onMount(async () => {
         try {
@@ -20,16 +20,16 @@
         }
         });
   
-    $: if (!loading) {
-    availabilitiesList = Object.entries(availabilities).map(([day, time]) => {
+        $: if (!loading && availabilities) {
+      availabilitiesList = Object.entries(availabilities).map(([day, time]) => {
         return { day, time };
-    });
+      });
     }
 
     // Function to delete an availability
     async function deleteAvailability(day: string) {
       // Your logic to delete the availability from Firestore
-      const userDocRef = doc(db, 'users', $user!.uid);
+      const userDocRef = doc(db, 'teachers', $user!.uid);
       const userDoc = await getDoc(userDocRef);
       if (userDoc.exists()) {
         const userData = userDoc.data();
@@ -45,9 +45,9 @@
 
   </script>
   
-  {#if $userData && $userData.availabilities}
+  {#if $teacherData && $teacherData.availabilities}
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    {#each Object.entries($userData.availabilities) as [day, time]}
+    {#each Object.entries($teacherData.availabilities) as [day, time]}
       <div class="p-6 rounded-lg shadow-lg bg-white">
         <h3 class="text-lg font-semibold mb-2">{day}</h3>
         <ul class="list-decimal list-inside">

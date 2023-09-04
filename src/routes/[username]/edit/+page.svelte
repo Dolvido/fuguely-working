@@ -3,11 +3,15 @@
   import { db, user, userData } from "$lib/firebase";
   import { doc, updateDoc, writeBatch } from "firebase/firestore";
   import Logout from "$lib/components/Logout.svelte";
-  import TeacherSchedule from "$lib/components/TeacherSchedule.svelte";
-  import WeekView from "$lib/components/WeekView.svelte";
-  import WindowPicker from "$lib/components/WindowPicker.svelte";
-  import ViewAvailabilities from "$lib/components/ViewAvailabilities.svelte";
-  
+  // teacher imports
+  import TeacherWindowPicker from "$lib/components/teacher/TeacherWindowPicker.svelte";
+  import TeacherViewAvailabilities from "$lib/components/teacher/TeacherViewAvailabilities.svelte";
+  //student imports
+  import MyTeachers from "$lib/components/student/MyTeachers.svelte";
+
+  // common imports
+  import Navbar from "$lib/components/common/Navbar.svelte";
+
   let reloadAvailabilities = false;
 
   // Function to toggle the profile status
@@ -38,7 +42,7 @@
 
   
 </script>
-
+<Navbar title="Fuguely" />
 <main class="max-w-xl mx-auto">
   {#if $userData?.username === $page.params.username}
     <h1 class="mx-2 text-2xl font-bold mt-8 mb-4 text-center">Edit your Profile</h1>
@@ -82,14 +86,16 @@
       <div class="text-center my-4">
         <a class="btn btn-outline btn-xs" href={`/${$userData.username}/edit`}>Teacher Mode</a>
         <!-- Teacher Schedule -->
-        <WindowPicker  />
-        <ViewAvailabilities/>
+        <TeacherWindowPicker  />
+        <TeacherViewAvailabilities/>
 
       </div>
     {:else if $userData?.profileType === "Student"}
       <div class="text-center my-4">
-        <a class="btn btn-outline btn-xs" href={`/${$userData.username}/edit`}>Stuent Mode</a>
+        <a class="btn btn-outline btn-xs" href={`/${$userData.username}/edit`}>Student Mode</a>
       </div>
+      <!-- Student teachers -->
+      <MyTeachers />
 
       
     {/if}
