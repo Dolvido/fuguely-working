@@ -44,28 +44,45 @@
 </script>
 
 
+<style>
+    .empty-cell {
+        min-width: 50px;
+    }
+</style>
+
 <div>
     <!-- Using $loading to access the value of the loading store -->
     <button on:click={reloadTeachers} disabled={$loading}>Reload</button>
-    
+
     {#if $loading}
         <div>Loading...</div>
     {/if}
-    
+
     <table>
         <thead>
             <tr>
                 <th>Name</th>
+                <th class="empty-cell"></th> <!-- Added CSS class -->
+                <th>Schedule</th>
             </tr>
         </thead>
         <tbody>
             <!-- Using teachers directly since it's a reactive variable -->
-            {#each teachers as teacher (teacher.id)}
+            {#each teachers as teacher}
                 <tr>
                     <td>{teacher}</td>
+                    <td class="empty-cell"></td> <!-- Added CSS class -->
+                    <td>
+                        <!-- Using an anchor tag styled like a button -->
+                        <a href={`/${teacher}`} class="btn-class">View Schedule</a>
+                    </td>
                 </tr>
             {/each}
         </tbody>
     </table>
 </div>
+
+
+
+
 
