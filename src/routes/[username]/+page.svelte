@@ -2,6 +2,7 @@
   import UserLink from "$lib/components/UserLink.svelte";
     import type { PageData } from "./$types";
     import StudentCheck from "$lib/components/StudentCheck.svelte";
+    import TeachersAvailableLessons from "$lib/components/student/TeachersAvailableLessons.svelte";
 
     export let data: PageData;
   </script>
@@ -35,7 +36,8 @@
     </ul>
 
     <StudentCheck>
-      <p>StudentCheck</p>
+      <p>Teacher Schedule</p>
+      <TeachersAvailableLessons />
     </StudentCheck>
   
   </main>
