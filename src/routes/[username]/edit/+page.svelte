@@ -7,8 +7,8 @@
   import TeacherWindowPicker from "$lib/components/teacher/TeacherWindowPicker.svelte";
   import TeacherViewAvailabilities from "$lib/components/teacher/TeacherViewAvailabilities.svelte";
   //student imports
-  import MyTeachers from "$lib/components/student/MyTeachers.svelte";
-
+  import TeacherTableView from "$lib/components/student/TeacherTableView.svelte";
+  import TeacherSearch from "$lib/components/student/TeacherSearch.svelte";
   // common imports
   import Navbar from "$lib/components/common/Navbar.svelte";
 
@@ -95,8 +95,8 @@
         <a class="btn btn-outline btn-xs" href={`/${$userData.username}/edit`}>Student Mode</a>
       </div>
       <!-- Student teachers -->
-      <MyTeachers />
-
+      <TeacherSearch />
+      <TeacherTableView />
       
     {/if}
     

@@ -49,8 +49,6 @@ function userStore() {
 
 export const user = userStore();
 
-
-
 /**
  * @param  {string} path document path or reference
  * @param  {any} startWith optional default data
@@ -116,7 +114,7 @@ interface TeacherData {
   photoURL: string;
   students: string[];
   bio: string;
-  availability: { string: []};
+  availabilities: { string: []};
 }
 
 export const teacherData: Readable<TeacherData | null> = derived(user, ($user, set) => {
