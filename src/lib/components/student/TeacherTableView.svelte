@@ -52,17 +52,12 @@
     });
 </script>
 
-<style>
-    .empty-cell {
-        min-width: 50px;
-    }
-</style>
 
 <div>
     {#if $loading}
         <div>Loading...</div>
     {/if}
-
+    
     <table>
         <thead>
             <tr>
