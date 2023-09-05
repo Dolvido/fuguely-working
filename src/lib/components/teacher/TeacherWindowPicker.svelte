@@ -2,7 +2,6 @@
 <script lang="ts">
     import { db, user, userData } from "$lib/firebase";  // Assuming you've initialized firebase in this module
     import { doc, setDoc, getDoc } from "firebase/firestore";
-    import { writeBatch } from "firebase/firestore";
     import { createEventDispatcher } from "svelte";
 
     const dispatch = createEventDispatcher();
@@ -39,32 +38,6 @@
                 alert("Start time must be before end time");
                 return;
             }
-            
-            const availabilitiesRef = doc(db, 'availabilities', $user!.uid);
-            const existingData = await getDoc(availabilitiesRef);
-            // set the data in availabilities document at users uid
-            // set the data to a collection of key value pairs
-            // key is the day, value is the time window (30 minute lesson)
-            // if the day already exists, then update the time window
-            // if the day does not exist, then add the day and time window
-            // if the day exists, but the time window is different, then update the time window
-            // if the day exists, and the time window is the same, then do nothing
-
-            let existingAvailabilities = existingData.exists ? existingData.data().availabilities : [];
-
-            const newAvailability = {
-                day: selectedDay,
-                timeWindow: `${selectedStartTime} to ${selectedEndTime}`
-            };
-
-            existingAvailabilities = [...existingAvailabilities, newAvailability];
-
-            await setDoc(availabilitiesRef, { availabilities: existingAvailabilities });
-
-            
-
-
-
             const docRef = doc(db, 'teachers', $user!.uid); // Replace 'users' with the appropriate collection name
             const userData = await getDoc(docRef);
             const userDoc = userData.data() || {};
