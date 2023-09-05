@@ -40,6 +40,7 @@
   async function confirmUsername() {
     console.log("confirming username", username);
     const batch = writeBatch(db);
+    console.log("setting username");
     batch.set(doc(db, "usernames", username), { uid: $user?.uid });
     batch.set(doc(db, "users", $user!.uid), {
       username,
@@ -48,7 +49,7 @@
       bio: "",
       profileType: selectedRole,
     });
-
+    console.log("setting profile type")
     if(selectedRole === "Teacher") {
       batch.set(doc(db, "teachers", $user!.uid), {
         username,
@@ -57,8 +58,14 @@
         bio: "",
         availabilities: [],
       });
+      console.log("setting avail");
+      batch.set(doc(db, "availabilities", $user!.uid), {
+        availabilities: [],
+      }); 
     }
     if(selectedRole === "Student") {
+      console.log("setting student");
+
       batch.set(doc(db, "students", $user!.uid), {
         username,
         photoURL: $user?.photoURL ?? null,
@@ -66,8 +73,12 @@
         teachers: [],
       });
     }
-
-    await batch.commit();
+    try{
+      console.log("committing");
+      await batch.commit();
+    } catch (e) {
+      console.log(e);
+    }
 
     username = "";
     isAvailable = false;
