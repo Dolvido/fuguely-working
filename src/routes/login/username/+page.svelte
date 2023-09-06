@@ -58,6 +58,7 @@
         bio: "",
         availabilities: [],
       });
+
       console.log("setting avail");
       batch.set(doc(db, "availabilities", $user!.uid), {
         availabilities: [],
