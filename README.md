@@ -33,13 +33,6 @@ live demo: https://fuguely-web-app.web.app/
 
 Visit `http://localhost:3000` in your browser to see the app in action!
 
-## Contributing
-
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute.
-
-## License
-
-This project is unlicensed
 
 ---
 
